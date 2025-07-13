@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantry - Portal de Juegos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bubbleboddy+Neue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header with Cantry Logo and Search -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="cantry-logo">
+                    <div class="logo-icon">
+                        <img src="attached_assets/image-removebg-preview_1752337327762.png" alt="Cantry Logo" class="logo-image">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="search-section">
+                <div class="search-bar" id="searchBar">
+                    <input type="text" placeholder="Buscar juegos..." id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <!-- Expandable Search Content -->
+                <div class="search-expanded" id="searchExpanded">
+                    <div class="categories" id="categoriesContainer">
+                        <div class="category-item active" data-category="all">Todos</div>
+                        <div class="category-item" data-category="accion">Acción</div>
+                        <div class="category-item" data-category="aventura">Aventura</div>
+                        <div class="category-item" data-category="puzzle">Puzzle</div>
+                        <div class="category-item" data-category="deportes">Deportes</div>
+                        <div class="category-item" data-category="estrategia">Estrategia</div>
+                    </div>
+                    <div class="worker-access">
+                        <a href="#" id="workerAccess">Acceso trabajadores</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Games Grid -->
+    <main class="main-content">
+        <div class="games-grid" id="gamesGrid">
+            <!-- Games will be dynamically loaded here -->
+        </div>
+    </main>
+
+    <!-- Worker Access Modal -->
+    <div class="modal" id="pinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Introducir pin de acceso</h3>
+                <button class="close-btn" id="closePinModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="password" placeholder="PIN" id="pinInput" maxlength="4">
+                <button class="submit-btn" id="submitPin">Acceder</button>
+                <div class="error-message" id="pinError"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content admin-modal">
+            <div class="modal-header">
+                <h3>Panel de Administración</h3>
+                <button class="close-btn" id="closeAdminModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="games">Gestionar Juegos</button>
+                    <button class="tab-btn" data-tab="categories">Gestionar Categorías</button>
+                    <button class="tab-btn" data-tab="website">Administrar Sitio Web</button>
+                </div>
+                
+                <!-- Games Management Tab -->
+                <div class="tab-content active" id="gamesTab">
+                    <div class="add-game-form">
+                        <h4>Agregar Nuevo Juego</h4>
+                        <input type="text" placeholder="Nombre del juego" id="gameName">
+                        <input type="url" placeholder="URL de la portada" id="gameCover">
+                        <input type="url" placeholder="URL del juego (embed)" id="gameUrl">
+                        <input type="url" placeholder="URL del video preview (MP4)" id="gameVideoPreview">
+                        <input type="text" placeholder="Etiquetas de búsqueda (separadas por comas)" id="gameKeys">
+                        <select id="gameCategory">
+                            <option value="">Seleccionar categoría</option>
+                        </select>
+                        <select id="gameSize">
+                            <option value="small">Pequeño</option>
+                            <option value="medium" selected>Mediano</option>
+                            <option value="large">Grande</option>
+                        </select>
+                        <button class="submit-btn" id="addGameBtn">Agregar Juego</button>
+                    </div>
+                    
+                    <div class="games-list" id="gamesList">
+                        <h4>Juegos Existentes</h4>
+                        <div id="existingGames"></div>
+                    </div>
+                </div>
+                
+                <!-- Categories Management Tab -->
+                <div class="tab-content" id="categoriesTab">
+                    <div class="add-category-form">
+                        <h4>Agregar Nueva Categoría</h4>
+                        <input type="text" placeholder="Nombre de la categoría" id="categoryName">
+                        <button class="submit-btn" id="addCategoryBtn">Agregar Categoría</button>
+                    </div>
+                    
+                    <div class="categories-list" id="categoriesList">
+                        <h4>Categorías Existentes</h4>
+                        <div id="existingCategories"></div>
+                    </div>
+                </div>
+                
+                <!-- Website Management Tab -->
+                <div class="tab-content" id="websiteTab">
+                    <div class="website-config-form">
+                        <h4>Configuración del Sitio Web</h4>
+                        <div class="form-group">
+                            <label>URL del Logo:</label>
+                            <input type="url" placeholder="https://ejemplo.com/logo.png" id="logoUrl">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Fondo Principal:</label>
+                            <input type="color" id="primaryColor" value="#8B5CF6">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Fondo Secundario:</label>
+                            <input type="color" id="secondaryColor" value="#667eea">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Texto:</label>
+                            <input type="color" id="textColor" value="#333333">
+                        </div>
+                        <div class="form-group">
+                            <label>Título del Sitio:</label>
+                            <input type="text" placeholder="Cantry - Portal de Juegos" id="siteTitle">
+                        </div>
+                        <button class="submit-btn" id="saveWebsiteConfig">Guardar Configuración</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Player Modal -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content game-modal">
+            <div class="modal-header">
+                <h3 id="gameTitle"></h3>
+                <div class="modal-controls">
+                    <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="close-btn" id="closeGameModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="gameFrame" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Game Modal -->
+    <div class="modal" id="editGameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Juego</h3>
+                <button class="close-btn" id="closeEditGameModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" placeholder="Nombre del juego" id="editGameName">
+                <input type="url" placeholder="URL de la portada" id="editGameCover">
+                <input type="url" placeholder="URL del juego (embed)" id="editGameUrl">
+                <input type="url" placeholder="URL del video preview (MP4)" id="editGameVideoPreview">
+                <input type="text" placeholder="Etiquetas de búsqueda (separadas por comas)" id="editGameKeys">
+                <select id="editGameCategory">
+                    <option value="">Seleccionar categoría</option>
+                </select>
+                <select id="editGameSize">
+                    <option value="small">Pequeño</option>
+                    <option value="medium">Mediano</option>
+                    <option value="large">Grande</option>
+                </select>
+                <button class="submit-btn" id="updateGameBtn">Actualizar Juego</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
